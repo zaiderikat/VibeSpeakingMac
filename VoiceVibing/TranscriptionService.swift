@@ -1,6 +1,8 @@
 import Foundation
 
 final class TranscriptionService {
+    static let shared = TranscriptionService()
+
     private var bridge: OpaquePointer?
     private var loadedModelPath: String?
     private var threads: Int = 4
@@ -23,8 +25,11 @@ final class TranscriptionService {
         return true
     }
 
-    func transcribe(wavURL: URL, language: String, prompt: String) -> String? {
+    func transcribe(wavURL: URL, language: String, prompt: String, cancelCheck: () -> Bool) -> String? {
         guard let bridge = bridge else {
+            return nil
+        }
+        if cancelCheck() {
             return nil
         }
 
@@ -37,7 +42,7 @@ final class TranscriptionService {
         }
         let result = String(cString: resultPtr!)
         whisper_bridge_free_string(resultPtr)
-        return result
+        return cancelCheck() ? nil : result
     }
 
     deinit {

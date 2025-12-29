@@ -8,6 +8,10 @@
 - V4-3: Shortcut toggle + menubar recording indicator.
 - V4-4: AudioRecorderService using AVAudioRecorder.
 - V4-5: Whisper.cpp bridge + build script (CMake static libs).
+- V4-7: Insert transcription via clipboard paste (restore clipboard by default).
+- V4-8: Onboarding window + permission status menu.
+- V4-9: Performance hardening (warm model + cancel-on-new-recording).
+- Model bundling: ggml-tiny.en.bin included in app resources.
 
 ## Decisions
 
@@ -17,13 +21,11 @@
 - Typing mode (key events) is a possible future option.
 - Whisper.cpp integration via CMake-built library (Option B).
 - Recordings are saved in temp and kept until the next recording.
-- Models live in ~/Library/Application Support/VoiceVibing/models/.
-- Model files will be bundled in the app for release (next step).
+- Models are bundled in the app for release; App Support is fallback.
 
 ## Known Issues
 
-- Settings window does not appear when selecting Settings… from the menubar.
-  We will revisit after the next steps.
+- None tracked currently.
 
 ## Build whisper.cpp (V4)
 
@@ -38,9 +40,13 @@ This script outputs static libs into:
 
 ## Model setup
 
-Place models at:
+Bundled model location in app resources:
 
-- `~/Library/Application Support/VoiceVibing/models/`
+- `VoiceVibing/Models/ggml-tiny.en.bin`
+
+Fallback location (sandbox App Support):
+
+- `~/Library/Containers/zerekat.VoiceVibing/Data/Library/Application Support/VoiceVibing/models/`
 
 Expected filenames:
 
@@ -52,3 +58,5 @@ Expected filenames:
 
 - Settings are stored in UserDefaults via AppStorage.
 - Start/Stop Recording now starts/stops AVAudioRecorder and triggers transcription.
+- Clipboard contents are restored after paste by default.
+- New recordings cancel an in-flight transcription (latest wins).

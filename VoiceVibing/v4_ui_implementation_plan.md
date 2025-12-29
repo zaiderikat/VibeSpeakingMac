@@ -206,7 +206,12 @@ But for your exact UX (“lift fingers”), plan for either:
   * `~/Library/Application Support/<AppName>/models/`
 * First-run behavior:
 
-  * If model missing, prompt user to download/copy.
+* If model missing, prompt user to download/copy.
+
+**Implementation notes (added)**
+
+* The tiny model is bundled in the app resources (`VoiceVibing/Models/ggml-tiny.en.bin`).
+* App Support remains a fallback location for larger models.
 
 ---
 
@@ -237,6 +242,13 @@ But for your exact UX (“lift fingers”), plan for either:
   * reading focused element / caret
   * injecting paste events
 
+**Status (skipped for now)**
+
+We are skipping V4-6 because the current UX (menubar indicator + push-to-talk flow)
+is sufficient for local testing, and the caret overlay adds complexity without
+blocking core functionality. We can revisit this later if the UX needs more
+visual feedback near the cursor.
+
 ---
 
 ### V4-7: Insert transcription into any app
@@ -256,6 +268,12 @@ But for your exact UX (“lift fingers”), plan for either:
 * Cursor stays in target app.
 * Text is inserted at cursor position.
 
+**Implementation notes (added)**
+
+* Clipboard is restored after paste with a 200ms delay to avoid pasting the
+  previous clipboard contents.
+* Output mode defaults to paste; type mode remains a future option.
+
 ---
 
 ### V4-8: Permissions + onboarding
@@ -274,6 +292,16 @@ But for your exact UX (“lift fingers”), plan for either:
 **Success criteria**
 
 * A new user can get it working without guessing what permission is missing.
+
+**Implementation notes (added)**
+
+* Onboarding is a 3-step window:
+  1) Permissions: buttons to open Microphone and Accessibility settings.
+  2) Shortcut: explains press-to-start, press-again-to-stop behavior.
+  3) Test: focused text field where the user triggers the shortcut and sees
+     pasted output.
+* Continue/Back navigation; Finish closes onboarding.
+* Permission status shown in the menubar menu (Microphone / Accessibility).
 
 ---
 
@@ -346,3 +374,19 @@ Where it’s “hard” is not whisper.cpp — it’s the **macOS system integra
 * global shortcut press/release
 
 But those are solvable and very standard for menubar utilities.
+
+---
+
+## Today (completed)
+
+* V4-0 through V4-5, V4-7, V4-8, V4-9 completed.
+* V4-6 skipped (documented) due to sufficient UX without caret overlay.
+* Model bundling: `ggml-tiny.en.bin` included in app resources; App Support is fallback.
+* Shortcut behavior is toggle (press to start, press again to stop), documented in onboarding.
+* Clipboard restore delay set to 200ms to avoid pasting old clipboard contents.
+
+## Final V4 steps (pending)
+
+* Bundle additional models (base/small) or limit selector to bundled models.
+* Optional: add Type mode (key events) for output mode.
+* Optional: persist onboarding completion so it only shows once.

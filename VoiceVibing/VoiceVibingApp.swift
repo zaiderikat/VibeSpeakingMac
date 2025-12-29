@@ -23,5 +23,6 @@ struct VoiceVibingApp: App {
             SettingsView()
                 .environmentObject(appState)
         }
+        .defaultSize(width: 420, height: 360)
     }
 }
