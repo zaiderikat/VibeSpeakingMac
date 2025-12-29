@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E96759F72F02233F006F3A0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E96759F62F02233F006F3A0E /* KeyboardShortcuts */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E96759A32F02191D006F3A0E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +33,22 @@
 		E96759AC2F02191D006F3A0E /* VoiceVibingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceVibingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E96759FF2F022916006F3A0E /* Exceptions for "VoiceVibing" folder in "VoiceVibing" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E96759932F02191D006F3A0E /* VoiceVibing */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E96759962F02191D006F3A0E /* VoiceVibing */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E96759FF2F022916006F3A0E /* Exceptions for "VoiceVibing" folder in "VoiceVibing" target */,
+			);
 			path = VoiceVibing;
 			sourceTree = "<group>";
 		};
@@ -52,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E96759F72F02233F006F3A0E /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +96,7 @@
 				E96759962F02191D006F3A0E /* VoiceVibing */,
 				E96759A52F02191D006F3A0E /* VoiceVibingTests */,
 				E96759AF2F02191D006F3A0E /* VoiceVibingUITests */,
+				E96759F52F02233F006F3A0E /* Frameworks */,
 				E96759952F02191D006F3A0E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +109,13 @@
 				E96759AC2F02191D006F3A0E /* VoiceVibingUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E96759F52F02233F006F3A0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +138,7 @@
 			);
 			name = VoiceVibing;
 			packageProductDependencies = (
+				E96759F62F02233F006F3A0E /* KeyboardShortcuts */,
 			);
 			productName = VoiceVibing;
 			productReference = E96759942F02191D006F3A0E /* VoiceVibing.app */;
@@ -195,6 +222,9 @@
 			);
 			mainGroup = E967598B2F02191D006F3A0E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E96759DA2F02226E006F3A0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E96759952F02191D006F3A0E /* Products */;
 			projectDirPath = "";
@@ -402,16 +432,37 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoiceVibing/Whisper/include",
+				);
+				INFOPLIST_FILE = VoiceVibing/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceVibing needs microphone access to record audio.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoiceVibing/Whisper/lib",
+				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lwhisper",
+					"-lggml",
+					"-lggml-base",
+					"-lggml-blas",
+					"-lggml-cpu",
+					"-framework",
+					Accelerate,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = zerekat.VoiceVibing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VoiceVibing/VoiceVibing-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -429,16 +480,37 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoiceVibing/Whisper/include",
+				);
+				INFOPLIST_FILE = VoiceVibing/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceVibing needs microphone access to record audio.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VoiceVibing/Whisper/lib",
+				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lwhisper",
+					"-lggml",
+					"-lggml-base",
+					"-lggml-blas",
+					"-lggml-cpu",
+					"-framework",
+					Accelerate,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = zerekat.VoiceVibing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "VoiceVibing/VoiceVibing-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -551,6 +623,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E96759DA2F02226E006F3A0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E96759F62F02233F006F3A0E /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E96759DA2F02226E006F3A0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E967598C2F02191D006F3A0E /* Project object */;
 }
