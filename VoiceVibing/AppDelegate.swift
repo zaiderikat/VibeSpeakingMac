@@ -16,6 +16,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        NSLog("App bundle path: \(Bundle.main.bundlePath)")
+        _ = PermissionsService.shared.requestAccessibility()
         setupStatusItem()
         setupShortcuts()
         refreshPermissionsMenu()

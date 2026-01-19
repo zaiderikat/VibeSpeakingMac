@@ -1,5 +1,6 @@
 import AppKit
 import AVFoundation
+import ApplicationServices
 
 enum PermissionStatus: String {
     case granted
@@ -33,6 +34,12 @@ final class PermissionsService {
 
     func accessibilityStatus() -> PermissionStatus {
         return AXIsProcessTrusted() ? .granted : .denied
+    }
+
+    func requestAccessibility() -> Bool {
+        let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+        let options = [key: true] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
     }
 
     func openSystemSettingsPrivacy(path: String) {

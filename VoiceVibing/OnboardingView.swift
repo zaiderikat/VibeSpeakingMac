@@ -25,8 +25,11 @@ struct OnboardingView: View {
                     Button("Open Microphone Settings") {
                         PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Microphone")
                     }
-                    Button("Open Accessibility Settings") {
-                        PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                    Button("Request Accessibility") {
+                        let granted = PermissionsService.shared.requestAccessibility()
+                        if !granted {
+                            PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                        }
                     }
                 }
 
@@ -76,7 +79,7 @@ struct OnboardingView: View {
                 testFieldFocused = true
             }
         }
-        .onChange(of: step) { _, newValue in
+        .onChange(of: step) { newValue in
             if newValue == .test {
                 testFieldFocused = true
             }

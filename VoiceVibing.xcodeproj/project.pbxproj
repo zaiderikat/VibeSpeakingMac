@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E96759F72F02233F006F3A0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E96759F62F02233F006F3A0E /* KeyboardShortcuts */; };
+		E9D2B8E42F0B9C2E00F0C1A1 /* VoiceVibing/Models in Resources */ = {isa = PBXBuildFile; fileRef = E9D2B8E32F0B9C2E00F0C1A1 /* VoiceVibing/Models */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,9 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E96759942F02191D006F3A0E /* VoiceVibing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceVibing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E96759942F02191D006F3A0E /* Solif: Speech to Text.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Solif: Speech to Text.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E96759A22F02191D006F3A0E /* VoiceVibingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceVibingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E96759AC2F02191D006F3A0E /* VoiceVibingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceVibingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D2B8E32F0B9C2E00F0C1A1 /* VoiceVibing/Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = VoiceVibing/Models; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -90,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E965BFA62F1E9C9900F13591 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				E9D2B8E32F0B9C2E00F0C1A1 /* VoiceVibing/Models */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		E967598B2F02191D006F3A0E = {
 			isa = PBXGroup;
 			children = (
@@ -98,13 +108,14 @@
 				E96759AF2F02191D006F3A0E /* VoiceVibingUITests */,
 				E96759F52F02233F006F3A0E /* Frameworks */,
 				E96759952F02191D006F3A0E /* Products */,
+				E965BFA62F1E9C9900F13591 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
 		E96759952F02191D006F3A0E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E96759942F02191D006F3A0E /* VoiceVibing.app */,
+				E96759942F02191D006F3A0E /* Solif: Speech to Text.app */,
 				E96759A22F02191D006F3A0E /* VoiceVibingTests.xctest */,
 				E96759AC2F02191D006F3A0E /* VoiceVibingUITests.xctest */,
 			);
@@ -141,7 +152,7 @@
 				E96759F62F02233F006F3A0E /* KeyboardShortcuts */,
 			);
 			productName = VoiceVibing;
-			productReference = E96759942F02191D006F3A0E /* VoiceVibing.app */;
+			productReference = E96759942F02191D006F3A0E /* Solif: Speech to Text.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E96759A12F02191D006F3A0E /* VoiceVibingTests */ = {
@@ -242,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D2B8E42F0B9C2E00F0C1A1 /* VoiceVibing/Models in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +436,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = VoiceVibing/VoiceVibing.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -437,8 +451,10 @@
 					"$(PROJECT_DIR)/VoiceVibing/Whisper/include",
 				);
 				INFOPLIST_FILE = VoiceVibing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Solif: Speech to Text";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceVibing needs microphone access to record audio.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To collect the vibes of the voice ";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -447,7 +463,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VoiceVibing/Whisper/lib",
 				);
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lwhisper",
@@ -458,8 +475,8 @@
 					"-framework",
 					Accelerate,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = zerekat.VoiceVibing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.solif.speech-to-text";
+				PRODUCT_NAME = "Solif: Speech to Text";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoiceVibing/VoiceVibing-Bridging-Header.h";
@@ -472,7 +489,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = VoiceVibing/VoiceVibing.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -485,8 +504,10 @@
 					"$(PROJECT_DIR)/VoiceVibing/Whisper/include",
 				);
 				INFOPLIST_FILE = VoiceVibing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Solif: Speech to Text";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceVibing needs microphone access to record audio.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To collect the vibes of the voice ";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -495,7 +516,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VoiceVibing/Whisper/lib",
 				);
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lwhisper",
@@ -506,8 +528,8 @@
 					"-framework",
 					Accelerate,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = zerekat.VoiceVibing;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.solif.speech-to-text";
+				PRODUCT_NAME = "Solif: Speech to Text";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoiceVibing/VoiceVibing-Bridging-Header.h";

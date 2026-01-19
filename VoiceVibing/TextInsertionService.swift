@@ -6,6 +6,14 @@ final class TextInsertionService {
             return
         }
 
+        if PermissionsService.shared.accessibilityStatus() != .granted {
+            let granted = PermissionsService.shared.requestAccessibility()
+            if !granted {
+                PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                return
+            }
+        }
+
         let pasteboard = NSPasteboard.general
         let previousTypes = pasteboard.types ?? []
         var previousData: [NSPasteboard.PasteboardType: Data] = [:]
@@ -44,4 +52,3 @@ final class TextInsertionService {
         }
     }
 }
-

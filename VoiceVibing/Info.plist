@@ -2,7 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>Solif: Speech to Text</string>
+	<key>CFBundleName</key>
+	<string>Solif: Speech to Text</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To collect the vibes of the voice </string>
+	<string>Solif needs microphone access to record and transcribe your speech.</string>
 </dict>
 </plist>
