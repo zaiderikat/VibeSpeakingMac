@@ -9,10 +9,23 @@ final class TextInsertionService {
         if PermissionsService.shared.accessibilityStatus() != .granted {
             let granted = PermissionsService.shared.requestAccessibility()
             if !granted {
-                PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                NSLog("Accessibility not granted; skipping paste")
                 return
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                guard PermissionsService.shared.accessibilityStatus() == .granted else {
+                    NSLog("Accessibility permission still inactive. Restart may be required.")
+                    return
+                }
+                self?.performPaste(text: text, restoreClipboard: restoreClipboard)
+            }
+            return
         }
+
+        performPaste(text: text, restoreClipboard: restoreClipboard)
+    }
+
+    private func performPaste(text: String, restoreClipboard: Bool) {
 
         let pasteboard = NSPasteboard.general
         let previousTypes = pasteboard.types ?? []

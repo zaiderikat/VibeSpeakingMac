@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var startStopMenuItem: NSMenuItem?
     private var micStatusItem: NSMenuItem?
     private var accessibilityStatusItem: NSMenuItem?
+    private var defaultsObserver: NSObjectProtocol?
     private var isRecording = false
     private let recordingController = RecordingController()
     private let transcriptionService = TranscriptionService.shared
@@ -20,6 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         _ = PermissionsService.shared.requestAccessibility()
         setupStatusItem()
         setupShortcuts()
+        observeShortcutChanges()
         refreshPermissionsMenu()
     }
 
@@ -49,7 +51,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let menu = NSMenu()
-        let startStop = NSMenuItem(title: "Start Recording", action: #selector(toggleRecording), keyEquivalent: "r")
+        let startStop = NSMenuItem(title: "Start Recording", action: #selector(toggleRecording), keyEquivalent: "")
         menu.addItem(startStop)
         menu.addItem(NSMenuItem.separator())
 
@@ -70,12 +72,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         startStopMenuItem = startStop
         micStatusItem = micStatus
         accessibilityStatusItem = accessibilityStatus
+        updateShortcutMenuTitle()
     }
 
     private func setupShortcuts() {
         KeyboardShortcuts.onKeyUp(for: .pushToTalk) { [weak self] in
             self?.toggleRecording()
         }
+    }
+
+    func toggleRecordingFromOnboarding() {
+        toggleRecording()
     }
 
     @objc private func toggleRecording() {
@@ -186,7 +193,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             image?.isTemplate = true
             button.image = image
         }
-        startStopMenuItem?.title = isRecording ? "Stop Recording" : "Start Recording"
+        updateShortcutMenuTitle()
         refreshPermissionsMenu()
+    }
+
+    private func observeShortcutChanges() {
+        defaultsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: UserDefaults.standard,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateShortcutMenuTitle()
+        }
+    }
+
+    private func updateShortcutMenuTitle() {
+        let baseTitle = isRecording ? "Stop Recording" : "Start Recording"
+        let shortcutSuffix = formattedShortcutSuffix()
+        startStopMenuItem?.title = baseTitle + shortcutSuffix
+    }
+
+    private func formattedShortcutSuffix() -> String {
+        guard let shortcut = KeyboardShortcuts.getShortcut(for: .pushToTalk) else {
+            return ""
+        }
+        return " (\(shortcut))"
     }
 }

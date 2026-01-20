@@ -33,13 +33,24 @@ final class PermissionsService {
     }
 
     func accessibilityStatus() -> PermissionStatus {
-        return AXIsProcessTrusted() ? .granted : .denied
+        let trusted = AXIsProcessTrusted()
+        let axError = accessibilityCheckError()
+        NSLog("Accessibility status check: trusted=\(trusted) axError=\(axError.rawValue) bundle=\(Bundle.main.bundleIdentifier ?? "unknown") path=\(Bundle.main.bundlePath)")
+        return trusted ? .granted : .denied
     }
 
     func requestAccessibility() -> Bool {
         let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         let options = [key: true] as CFDictionary
-        return AXIsProcessTrustedWithOptions(options)
+        let trusted = AXIsProcessTrustedWithOptions(options)
+        NSLog("Accessibility request: trusted=\(trusted) bundle=\(Bundle.main.bundleIdentifier ?? "unknown") path=\(Bundle.main.bundlePath)")
+        return trusted
+    }
+
+    private func accessibilityCheckError() -> AXError {
+        let systemWide = AXUIElementCreateSystemWide()
+        var value: CFTypeRef?
+        return AXUIElementCopyAttributeValue(systemWide, kAXFocusedUIElementAttribute as CFString, &value)
     }
 
     func openSystemSettingsPrivacy(path: String) {
