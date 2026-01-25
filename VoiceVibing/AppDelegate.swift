@@ -23,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupShortcuts()
         observeShortcutChanges()
         refreshPermissionsMenu()
+        showAccessibilityRequiredAlertIfNeeded()
     }
 
     func attach(appState: AppState) {
@@ -182,6 +183,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         accessibilityStatusItem?.title = "Accessibility: \(accessibilityStatus.rawValue.capitalized)"
     }
 
+    private func showAccessibilityRequiredAlertIfNeeded() {
+        if PermissionsService.shared.accessibilityStatus() == .granted {
+            return
+        }
+        let alert = NSAlert()
+        alert.messageText = "Accessibility Permission Required"
+        alert.informativeText = "Please enable “Solif: Speech to Text” in System Settings → Privacy & Security → Accessibility to allow auto‑paste."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open Accessibility Settings")
+        alert.addButton(withTitle: "Not Now")
+        NSApp.activate(ignoringOtherApps: true)
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+        }
+    }
+
     @objc private func quitApp() {
         NSApp.terminate(nil)
     }
@@ -206,6 +224,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self?.updateShortcutMenuTitle()
         }
     }
+
 
     private func updateShortcutMenuTitle() {
         let baseTitle = isRecording ? "Stop Recording" : "Start Recording"

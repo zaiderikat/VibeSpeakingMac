@@ -9,24 +9,20 @@ final class TextInsertionService {
         if PermissionsService.shared.accessibilityStatus() != .granted {
             let granted = PermissionsService.shared.requestAccessibility()
             if !granted {
-                NSLog("Accessibility not granted; skipping paste")
+                copyToClipboard(text: text)
                 return
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-                guard PermissionsService.shared.accessibilityStatus() == .granted else {
-                    NSLog("Accessibility permission still inactive. Restart may be required.")
-                    return
-                }
-                self?.performPaste(text: text, restoreClipboard: restoreClipboard)
+            // Accessibility can become active after user action; fall back to copy-only if not active yet.
+            if PermissionsService.shared.accessibilityStatus() != .granted {
+                copyToClipboard(text: text)
+                return
             }
-            return
         }
 
         performPaste(text: text, restoreClipboard: restoreClipboard)
     }
 
     private func performPaste(text: String, restoreClipboard: Bool) {
-
         let pasteboard = NSPasteboard.general
         let previousTypes = pasteboard.types ?? []
         var previousData: [NSPasteboard.PasteboardType: Data] = [:]
@@ -50,6 +46,13 @@ final class TextInsertionService {
             }
         }
     }
+
+    private func copyToClipboard(text: String) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
+    }
+
 
     private func sendPasteCommand() {
         let keyCode: CGKeyCode = 9 // V

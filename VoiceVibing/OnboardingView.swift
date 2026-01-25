@@ -1,3 +1,4 @@
+import AppKit
 import KeyboardShortcuts
 import SwiftUI
 
@@ -22,6 +23,9 @@ struct OnboardingView: View {
                     Text("Click Start Recording to trigger microphone permission. Click Stop to trigger Accessibility permission and paste the result.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
+                    Text("If Accessibility looks enabled but paste fails, add the running app from its build location.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
                 }
 
                 HStack(spacing: 12) {
@@ -39,6 +43,12 @@ struct OnboardingView: View {
 
                     Button("Open Accessibility Settings") {
                         PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                    }
+                }
+
+                HStack(spacing: 12) {
+                    Button("Reveal App in Finder") {
+                        NSWorkspace.shared.activateFileViewerSelecting([Bundle.main.bundleURL])
                     }
                 }
 
@@ -78,6 +88,7 @@ struct OnboardingView: View {
 
                 Button(step.primaryButtonTitle) {
                     if step == .shortcut {
+                        UserDefaults.standard.set(true, forKey: "didCompleteOnboarding")
                         appState.showOnboarding = false
                     } else {
                         step = step.next()
