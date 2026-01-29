@@ -18,32 +18,49 @@ struct OnboardingView: View {
             switch step {
             case .permissions:
                 VStack(alignment: .leading, spacing: 8) {
-                    Label("Microphone access", systemImage: "mic")
-                    Label("Accessibility access", systemImage: "lock")
-                    Text("Click Start Recording to trigger microphone permission. Click Stop to trigger Accessibility permission and paste the result.")
+                    Text("Step 1 — Start a short recording")
+                        .font(.headline)
+                    Text("Click Start Recording to trigger the microphone permission prompt. Click Stop to finish.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
+                    HStack {
+                        Button(onboardingActions.isRecording ? "Stop Recording" : "Start Recording") {
+                            if onboardingActions.isRecording {
+                                onboardingActions.stopAndTranscribe()
+                            } else {
+                                onboardingActions.startRecording()
+                            }
+                        }
+                        Spacer()
+                    }
+
+                    Text("Step 2 — Grant Microphone permission")
+                        .font(.headline)
+                    Text("Open Microphone settings and enable Solif: Speech to Text.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                    HStack {
+                        Button("Open Microphone Settings") {
+                            PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Microphone")
+                        }
+                        Spacer()
+                    }
+
+                    Text("Step 3 — Grant Accessibility permission")
+                        .font(.headline)
+                    Text("Open Accessibility settings and enable Solif: Speech to Text for auto‑paste.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                    HStack {
+                        Button("Open Accessibility Settings") {
+                            PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
+                        }
+                        Spacer()
+                    }
+
                     Text("If Accessibility looks enabled but paste fails, add the running app from its build location.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                }
-
-                HStack(spacing: 12) {
-                    Button(onboardingActions.isRecording ? "Stop Recording" : "Start Recording") {
-                        if onboardingActions.isRecording {
-                            onboardingActions.stopAndTranscribe()
-                        } else {
-                            onboardingActions.startRecording()
-                        }
-                    }
-
-                    Button("Open Microphone Settings") {
-                        PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Microphone")
-                    }
-
-                    Button("Open Accessibility Settings") {
-                        PermissionsService.shared.openSystemSettingsPrivacy(path: "Privacy_Accessibility")
-                    }
                 }
 
                 HStack(spacing: 12) {
@@ -98,7 +115,7 @@ struct OnboardingView: View {
             }
         }
         .padding(24)
-        .frame(minWidth: 480, minHeight: 320)
+        .frame(minWidth: 520, minHeight: 520)
     }
 }
 

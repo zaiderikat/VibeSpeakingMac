@@ -8,8 +8,8 @@ final class OnboardingWindowController: NSWindowController {
     init(appState: AppState) {
         let view = OnboardingView().environmentObject(appState)
         let hostingView = NSHostingView(rootView: view)
-        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 460, height: 300),
-                              styleMask: [.titled, .closable],
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 560),
+                              styleMask: [.titled, .closable, .resizable],
                               backing: .buffered,
                               defer: false)
         window.title = "VoiceVibing Setup"

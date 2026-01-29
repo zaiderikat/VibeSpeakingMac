@@ -10,11 +10,13 @@ final class TextInsertionService {
             let granted = PermissionsService.shared.requestAccessibility()
             if !granted {
                 copyToClipboard(text: text)
+                notifyAccessibilityRequiredIfOnboardingCompleted()
                 return
             }
             // Accessibility can become active after user action; fall back to copy-only if not active yet.
             if PermissionsService.shared.accessibilityStatus() != .granted {
                 copyToClipboard(text: text)
+                notifyAccessibilityRequiredIfOnboardingCompleted()
                 return
             }
         }
@@ -51,6 +53,12 @@ final class TextInsertionService {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
+    }
+
+    private func notifyAccessibilityRequiredIfOnboardingCompleted() {
+        if UserDefaults.standard.bool(forKey: "didCompleteOnboarding") {
+            NotificationCenter.default.post(name: .accessibilityPermissionRequired, object: nil)
+        }
     }
 
 

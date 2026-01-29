@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import KeyboardShortcuts
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -7,6 +8,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var micStatusItem: NSMenuItem?
     private var accessibilityStatusItem: NSMenuItem?
     private var defaultsObserver: NSObjectProtocol?
+    private var onboardingCancellable: AnyCancellable?
+    private var didShowAccessibilityAlert = false
     private var isRecording = false
     private let recordingController = RecordingController()
     private let transcriptionService = TranscriptionService.shared
@@ -22,8 +25,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusItem()
         setupShortcuts()
         observeShortcutChanges()
+        observeAccessibilityRequired()
         refreshPermissionsMenu()
-        showAccessibilityRequiredAlertIfNeeded()
     }
 
     func attach(appState: AppState) {
@@ -32,6 +35,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             showOnboarding()
         }
         warmModel()
+
+        onboardingCancellable = appState.$showOnboarding.sink { [weak self] show in
+            guard let self = self else { return }
+            if !show {
+                self.showAccessibilityRequiredAlertIfNeeded()
+            }
+        }
     }
 
     private func warmModel() {
@@ -184,9 +194,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showAccessibilityRequiredAlertIfNeeded() {
+        if didShowAccessibilityAlert {
+            return
+        }
+        if appState?.showOnboarding == true {
+            return
+        }
         if PermissionsService.shared.accessibilityStatus() == .granted {
             return
         }
+        didShowAccessibilityAlert = true
         let alert = NSAlert()
         alert.messageText = "Accessibility Permission Required"
         alert.informativeText = "Please enable “Solif: Speech to Text” in System Settings → Privacy & Security → Accessibility to allow auto‑paste."
@@ -225,6 +242,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private func observeAccessibilityRequired() {
+        NotificationCenter.default.addObserver(
+            forName: .accessibilityPermissionRequired,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.showAccessibilityRequiredAlertIfNeeded()
+        }
+    }
+
 
     private func updateShortcutMenuTitle() {
         let baseTitle = isRecording ? "Stop Recording" : "Start Recording"
@@ -238,4 +265,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         return " (\(shortcut))"
     }
+}
+
+extension Notification.Name {
+    static let accessibilityPermissionRequired = Notification.Name("accessibilityPermissionRequired")
 }
