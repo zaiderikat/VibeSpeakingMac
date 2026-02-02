@@ -10,5 +10,11 @@
 	<string>Solif: Speech to Text</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Solif needs microphone access to record and transcribe your speech.</string>
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/zaiderikat/solif-speech-to-text-updates/main/releases/appcast.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUPublicEDKey</key>
+	<string>VwINlFEMjZy5iwv5FjLIHwWDs0l4LQ1BQj037i0ni1w=</string>
 </dict>
 </plist>

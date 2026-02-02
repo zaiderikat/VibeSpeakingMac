@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E96759F72F02233F006F3A0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E96759F62F02233F006F3A0E /* KeyboardShortcuts */; };
+		E9A1B2C32F0C111100000001 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E9A1B2C32F0C111100000002 /* Sparkle */; };
 		E9D2B8E42F0B9C2E00F0C1A1 /* VoiceVibing/Models in Resources */ = {isa = PBXBuildFile; fileRef = E9D2B8E32F0B9C2E00F0C1A1 /* VoiceVibing/Models */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E96759F72F02233F006F3A0E /* KeyboardShortcuts in Frameworks */,
+				E9A1B2C32F0C111100000001 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +152,7 @@
 			name = VoiceVibing;
 			packageProductDependencies = (
 				E96759F62F02233F006F3A0E /* KeyboardShortcuts */,
+				E9A1B2C32F0C111100000002 /* Sparkle */,
 			);
 			productName = VoiceVibing;
 			productReference = E96759942F02191D006F3A0E /* Solif: Speech to Text.app */;
@@ -235,6 +238,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E96759DA2F02226E006F3A0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				E9A1B2C32F0C111100000003 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E96759952F02191D006F3A0E /* Products */;
@@ -456,6 +460,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To collect the vibes of the voice ";
+				INFOPLIST_KEY_SUEnableAutomaticChecks = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://raw.githubusercontent.com/zaiderikat/solif-speech-to-text-updates/main/releases/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "REPLACE_WITH_SPARKLE_PUBLIC_KEY";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -512,6 +519,9 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "To collect the vibes of the voice ";
+				INFOPLIST_KEY_SUEnableAutomaticChecks = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://raw.githubusercontent.com/zaiderikat/solif-speech-to-text-updates/main/releases/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "REPLACE_WITH_SPARKLE_PUBLIC_KEY";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -660,6 +670,14 @@
 				minimumVersion = 2.4.0;
 			};
 		};
+		E9A1B2C32F0C111100000003 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -667,6 +685,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E96759DA2F02226E006F3A0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		E9A1B2C32F0C111100000002 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9A1B2C32F0C111100000003 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

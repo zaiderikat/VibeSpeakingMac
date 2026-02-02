@@ -1,6 +1,7 @@
 import AppKit
 import Combine
 import KeyboardShortcuts
+import Sparkle
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
@@ -11,6 +12,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var onboardingCancellable: AnyCancellable?
     private var didShowAccessibilityAlert = false
     private var isRecording = false
+    private lazy var updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    )
     private let recordingController = RecordingController()
     private let transcriptionService = TranscriptionService.shared
     private let insertionService = TextInsertionService()
@@ -74,6 +80,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(accessibilityStatus)
         menu.addItem(NSMenuItem.separator())
 
+        menu.addItem(NSMenuItem(title: "Check for Updates…", action: #selector(checkForUpdates), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Settings…", action: #selector(openSettings), keyEquivalent: ","))
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
         menu.items.forEach { $0.target = self }
@@ -174,6 +181,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindowController?.showWindow(nil)
         settingsWindowController?.window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    @objc private func checkForUpdates() {
+        updaterController.checkForUpdates(nil)
     }
 
     private func showOnboarding() {
