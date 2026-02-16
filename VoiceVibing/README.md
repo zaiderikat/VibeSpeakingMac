@@ -27,6 +27,16 @@
 
 - None tracked currently.
 
+## Prepare a release 
+
+- To inludde a DMG Installer run this commnd for each new release:
+
+```
+hdiutil create -volname "Solif" \
+    -srcfolder "Solif: Speech to Text.app" \
+    -ov -format UDZO "Solif-0.0.1.dmg"
+```
+
 ## Build whisper.cpp (V4)
 
 ```bash
